@@ -286,6 +286,7 @@
             </div>
 
             <button type="submit" class="button" id="generateBtn">Generate Team</button>
+            <button type="button" class="button" id="sampleBtn" style="background: linear-gradient(45deg, #28a745, #20c997); margin-top: 10px;">View Sample Team</button>
         </form>
 
         <div class="loading" id="loading">
@@ -309,6 +310,7 @@
         const error = document.getElementById('error');
         const teamOutput = document.getElementById('teamOutput');
         const generateBtn = document.getElementById('generateBtn');
+        const sampleBtn = document.getElementById('sampleBtn');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -353,9 +355,32 @@
             }
         });
 
+        // Sample team button handler
+        sampleBtn.addEventListener('click', async () => {
+            showLoading(true);
+            hideError();
+            hideResult();
+
+            try {
+                const response = await fetch('/api/sample-team');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch sample team');
+                }
+
+                showResult(data.team);
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                showLoading(false);
+            }
+        });
+
         function showLoading(show) {
             loading.classList.toggle('show', show);
             generateBtn.disabled = show;
+            sampleBtn.disabled = show;
         }
 
         function showResult(team) {
