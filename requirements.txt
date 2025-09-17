@@ -1,0 +1,6 @@
+openai>=1.44.0
+streamlit>=1.36
+pydantic>=2.7
+requests>=2.32
+beautifulsoup4>=4.12
+lxml>=5.2
